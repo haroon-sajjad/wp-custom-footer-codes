@@ -5,6 +5,19 @@
 });*/
 
 (function($){
+
+	if($('#fcc_apply_only_if').prop('checked') === false) {
+		$('#ffc_logic_rows_div select, #ffc_logic_rows_div input').prop('disabled', true);
+	}
+
+	$('#fcc_apply_only_if').click(function(){
+		if($(this).prop('checked') === true) {
+			$('#ffc_logic_rows_div select, #ffc_logic_rows_div input').prop('disabled', false);
+		}
+		else {
+			$('#ffc_logic_rows_div select, #ffc_logic_rows_div input').prop('disabled', true);			
+		}
+	});
 	
 	$('select[name^="fcc_logic_value_selection"]').select2({
 		placeholder: 'All',
