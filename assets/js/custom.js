@@ -22,7 +22,9 @@
 	$('select[name^="fcc_logic_value_selection"]').select2({
 		placeholder: 'All',
 		tags: true,
-		theme: 'classic',/*,
+		theme: 'classic',
+		allowClear: true,
+		multiple: true,/*,
 		ajax: {
 			url: ajaxurl,
 			dataType: "json",
@@ -46,11 +48,11 @@
 
 	$('select[name^="fcc_logic_type_selection"]').each(function(){
 		var $type = $(this);
-		var type = $type.val();
+		/*var type = $type.val();
 		var counter = $(this).attr('id').split('_').pop();
 		var $selection = $('#fcc_logic_value_selection_' + counter);
 		
-		fillSelectionDropdown($, $type);
+		fillSelectionDropdown($, $type);*/
 
 		$type.change(function(){
 			fillSelectionDropdown($, $type);

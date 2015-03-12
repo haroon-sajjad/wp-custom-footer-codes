@@ -63,6 +63,8 @@ function register_custom_post_type()
 			'register_meta_box_cb' => 'footer_custom_code_metaboxes'
 		]
 	);
+
+	register_taxonomy( 'custom_taxonomy', 'post', ['label' => 'Custom Taxonomy', 'hierarchical' => true] );
 }
 
 /**
@@ -293,7 +295,10 @@ function _build_type_selection_dropdown_array()
 {
 	$dropdown_array = array();
 	
-	$taxonomies = (array) get_taxonomies(['_builtin' => true]);
+	$builtin_taxonomies = (array) get_taxonomies( ['_builtin' => 'true', 'object_type' => ['post']]);
+	$nonbuiltin_taxonomies = (array) get_taxonomies(['_builtin' => 'false', 'object_type' => ['post']]);
+
+	$taxonomies = array_merge($builtin_taxonomies, $nonbuiltin_taxonomies);
 
 	if( $taxonomies )
 	{
@@ -321,4 +326,41 @@ function _build_type_selection_dropdown_array()
 
 
 	return $dropdown_array;
+}
+
+/**
+ *
+ */
+function _build_selection_selection_dropdown_array( $fcc_type ) 
+{
+	$opt_array = array();
+	if( !isset($fcc_type) || empty($fcc_type) )
+	{
+		return $opt_array;
+	}
+
+	/*switch ( $fcc_type ) 
+	{
+		case 'category':
+			$options_array = get_categories();
+			break;
+		case 'post_tag':
+			$options_array = get_tags();
+			break;
+		default:
+			$options_array = array();
+			break;
+	}*/
+
+	$options_array = get_terms( 'link_category' );
+
+	if( count( $options_array ) > 0 )
+	{
+		foreach ($options_array as $key => $category) {
+			$opt_array[$key]['id'] = $category->term_id;
+			$opt_array[$key]['text'] = $category->name;
+		}
+	}
+
+	return $opt_array;
 }

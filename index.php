@@ -34,26 +34,7 @@ add_action( 'wp_ajax_fcc_logic_action', function()
 {
 	$fcc_type = filter_input(INPUT_POST, 'fcc_type');
 
-	switch ( $fcc_type ) {
-		case 'category':
-			$categories = get_categories();
-			break;
-		case 'post_tag':
-			$categories = get_tags();
-			break;
-		default:
-			# code...
-			break;
-	}
-
-	$cat_json = array();
-	if( count( $categories ) > 0 )
-	{
-		foreach ($categories as $key => $category) {
-			$cat_json[$key]['id'] = $category->term_id;
-			$cat_json[$key]['text'] = $category->name;
-		}
-	}
+	$cat_json = _build_selection_selection_dropdown_array( $fcc_type );
 
 	echo json_encode( $cat_json );
 
